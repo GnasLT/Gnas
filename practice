@@ -1,0 +1,69 @@
+#include <stdio.h>
+
+struct Person{
+	int age;
+	char name[30], address[30], gender[6],id[10];
+	
+};
+void ReadPersonInfo(struct Person *p, int *i);
+void WritePersonInfo(struct Person *p,int sltt);
+void DumpPersonalInfo(struct Person * per,int sltt);
+int main(){
+	Person p[100];
+	
+	int luaChon;
+	int i = 0;
+	ReadPersonInfo(p, &i);		
+	//WritePersonInfo(p, i);
+	DumpPersonalInfo(p,i);
+	
+	return 0;
+}
+
+void ReadPersonInfo(struct Person  *per,int *sltt)
+{
+	FILE* fOut = fopen("PersonInfo.txt","r");
+    int i = 0;
+	if (fOut)
+    {
+        for (;;) {
+            struct Person Info;
+            fscanf(fOut,"%10s %10s %10d %10s %10s\n",Info.id,Info.name,&Info.age,Info.gender,Info.address);
+            per[i++] = Info;
+            if(feof(fOut))
+            {
+                break;
+            }
+            
+
+        }
+    }
+    fclose(fOut);
+    *sltt = i;
+}
+
+void WritePersonInfo(struct Person * per,int sltt)
+{
+	FILE* fOut = fopen("PersonInfo.txt","a");
+	int i;
+	for (i = 0;i<sltt;i++)
+	{
+		struct Person info = per[i];
+		
+		fprintf(fOut,"%-10s",info.id);
+		fprintf(fOut,"%-10s",info.name);
+		fprintf(fOut,"%-10d",info.age);
+		fprintf(fOut,"%-10s",info.gender);
+		fprintf(fOut,"%-10s\n",info.address);
+	}
+	fclose(fOut);
+}
+void DumpPersonalInfo(struct Person * p,int sltt){
+	for(int i=0;i<sltt;i++) {
+		printf("%10s %10s %10d %10s\n",
+		p[i].name,p[i].id,p[i].age,p[i].address);
+		
+	}
+}
+
+
